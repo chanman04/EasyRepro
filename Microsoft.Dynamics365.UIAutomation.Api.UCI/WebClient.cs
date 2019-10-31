@@ -3899,6 +3899,199 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         }
         #endregion
 
+        #region Modifications
+
+        public BrowserCommandResult<bool> PatientSearch()
+        {
+            return this.Execute(GetOptions($"Perform MVI Search"), driver =>
+            {
+                IWebElement iFrameswitch = driver.FindElement(By.Id("FullPageWebResource"));
+                driver.SwitchTo().Frame(iFrameswitch);
+
+                driver.FindElement(By.Id("VetTextBox")).SendKeys("333157171");
+                driver.FindElement(By.Id("FirstNameTextBox")).SendKeys("kenneth");
+                driver.FindElement(By.Id("LastNameTextBox")).SendKeys("vccmdunn");
+
+                Thread.Sleep(7000);
+
+                var sc = driver.TakeScreenshot();
+                string filename = "MVISearch";
+                Random rand = new Random();
+                //   sc.SaveAsFile(@"C:\GJ's Workspace\VA.PatsR.UI.Tests\Error\" + filename + rand.Next(1, 1000000) + ".png", ScreenshotImageFormat.Jpeg);
+
+
+                if (driver.IsVisible(By.Id("SearchButton")))
+                    driver.ClickWhenAvailable(By.Id("SearchButton"));
+
+                Thread.Sleep(20000);
+
+                // sc.SaveAsFile(@"C:\GJ's Workspace\VA.PatsR.UI.Tests\Error\" + filename + rand.Next(1, 1000000) + "SearchButton.png", ScreenshotImageFormat.Jpeg);
+
+
+
+                if (driver.IsVisible(By.Id("selectVeteran")))
+                    driver.ClickWhenAvailable(By.Id("selectVeteran"));
+
+
+                // sc.SaveAsFile(@"C:\GJ's Workspace\VA.PatsR.UI.Tests\Error\" + filename + rand.Next(1, 100000000000) + "selectVeteran.png", ScreenshotImageFormat.Jpeg);
+
+
+                //var selectresult = driver.FindElement(By.Id("selectVeteran"));
+                //selectresult.Click();
+
+                Thread.Sleep(10000);
+
+                if (driver.IsVisible(By.Id("createInteraction")))
+                    driver.ClickWhenAvailable(By.Id("createInteraction"));
+
+                //var createint = driver.FindElement(By.Id("createInteraction"));
+                //createint.Click();
+
+                Thread.Sleep(10000);
+
+                //driver.SwitchTo().DefaultContent();
+
+                //var Confirmbtn = driver.FindElement(By.Id("confirmButton"));
+                //createint.Click();
+
+                //var Confirmbtn = driver.FindElement(By.Name("incident|NoRelationship|SubGridStandard|Mscrm.SubGrid.incident.AddNewStandard"));
+                //createint.Click();
+
+
+
+
+                return true;
+            });
+        }
+
+        public BrowserCommandResult<bool> SwitchCaseTab(string name)
+        {
+            return this.Execute(GetOptions($"Switch tab"), driver =>
+            {
+                if (name == "Claim")
+                {
+                    //Find the button in the CommandBar
+                    IWebElement ribbon = null;
+
+                    if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-tab_13\")]")))
+                        ribbon = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-tab_13\")]"));
+
+
+                    if (ribbon.GetAttribute("title") == "Case History")
+                    {
+                        ribbon.Click();
+                    }
+                }
+
+                else if (name == "Veteran")
+                {  //Find the button in the CommandBar
+                    IWebElement ribbon = null;
+
+                    if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-veteran\")]")))
+                        ribbon = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-veteran\")]"));
+
+
+                    if (ribbon.GetAttribute("title") == "Veteran")
+                    {
+                        ribbon.Click();
+                    }
+                }
+                else if (name == "Medical")
+                {  //Find the button in the CommandBar
+
+                    IWebElement ribbon = null;
+
+                    if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-medicalcharts\")]")))
+                        ribbon = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-medicalcharts\")]"));
+
+
+                    if (ribbon.GetAttribute("title") == "Medical Charts")
+                    {
+                        ribbon.Click();
+                    }
+
+                }
+                else if (name == "Request")
+                {  //Find the button in the CommandBar
+                    IWebElement ribbon = null;
+
+                    if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-veteran\")]")))
+                        ribbon = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\"form-tab-veteran\")]"));
+
+
+                    if (ribbon.GetAttribute("title") == "Veteran")
+                    {
+                        ribbon.Click();
+                    }
+                }
+                return true;
+            });
+        }
+
+      
+        internal BrowserCommandResult<bool> ClickSubgridButton(string subgridName, string subgridButtonName)
+        {
+            return Execute(GetOptions($"Select Subgrid {subgridName} button {subgridButtonName}"), driver =>
+            {
+                IWebElement parentElement;
+                if (driver.HasElement(By.XPath($"//div[text() = '{subgridName}']")))
+                {
+                    IWebElement divElement = driver.FindElement(By.XPath($"//div[text() = '{subgridName}']"));
+                    parentElement = divElement.FindElement(By.XPath("parent::*"));
+
+                }
+                else if (driver.HasElement(By.XPath($"//section[@aria-label='{subgridName}']")))
+                {
+                    parentElement = driver.FindElement(By.XPath($"//section[@aria-label='{subgridName}']"));
+                }
+                else
+                {
+                    throw new NotFoundException($"Subgrid {subgridName} not found on form.");
+                }
+                var items = parentElement.FindElements(By.TagName("li"));
+
+                //Is the button in the ribbon?
+                if (items.Any(x => x.GetAttribute("aria-label").Equals(subgridButtonName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    items.FirstOrDefault(x => x.GetAttribute("aria-label").Equals(subgridButtonName, StringComparison.OrdinalIgnoreCase)).Click(true);
+                    driver.WaitForTransaction();
+                }
+                return true;
+            });
+        }
+
+        internal BrowserCommandResult<bool> OpenRecentItemsUCI()
+        {
+
+            return this.Execute(GetOptions($"Switch tab"), driver =>
+            {
+
+                //Find the button in the CommandBar
+                IWebElement menuItem = null;
+
+                if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\'sitemap-entity-Recent_1A318AE1-712D-4D32-9E91-E936327E3256')]")))
+                {
+                    menuItem = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\'sitemap-entity-Recent_1A318AE1-712D-4D32-9E91-E936327E3256')]"));
+                    menuItem.Click();
+                    ThinkTime(3000);
+                }
+                IWebElement caseItem = null;
+
+                ThinkTime(3000);
+                if (driver.HasElement(By.XPath("//*[contains(@data-lp-id,\'sitemap-entity-9f68c53d-d9f4-e911-a813-000d3a33497d')]")))
+                {
+                    caseItem = driver.FindElement(By.XPath("//*[contains(@data-lp-id,\'sitemap-entity-9f68c53d-d9f4-e911-a813-000d3a33497d')]"));
+                    caseItem.Click();
+
+                }
+                return true;
+            });
+
+        }
+
+
+        #endregion
+
         internal void ThinkTime(int milliseconds)
         {
             Browser.ThinkTime(milliseconds);

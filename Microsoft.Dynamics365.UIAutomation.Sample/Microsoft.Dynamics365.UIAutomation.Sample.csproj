@@ -103,6 +103,10 @@
     <Compile Include="UCI\Navigation\GlobalSearch.cs" />
     <Compile Include="UCI\Navigation\OpenNavigation.cs" />
     <Compile Include="UCI\Navigation\PortalAdmin.cs" />
+    <Compile Include="UCI\PATSR\PatientSearchTest.cs" />
+    <Compile Include="UCI\PATSR\AnonymousCaseTest.cs" />
+    <Compile Include="UCI\PATSR\ContactingEntitiesTest.cs" />
+    <Compile Include="UCI\PATSR\OpenExistingCases.cs" />
     <Compile Include="UCI\QuickCreate\QuickCreate.cs" />
     <Compile Include="UCI\Read\HighlightAccount.cs" />
     <Compile Include="UCI\Read\OpenAccount.cs" />
@@ -133,6 +137,7 @@
     <Compile Include="Web\Entity\TestBase.cs" />
     <Compile Include="Web\Entity\Account.cs" />
     <Compile Include="Web\Navigation\AreasAndSubAreas.cs" />
+    <Compile Include="Web\PATSR\PersonaSwitch.cs" />
     <Compile Include="Web\ValidationTests\CreateUser.cs" />
     <Compile Include="Web\ValidationTests\CreateWorkflow.cs" />
     <Compile Include="Web\ValidationTests\OpenO365App.cs" />

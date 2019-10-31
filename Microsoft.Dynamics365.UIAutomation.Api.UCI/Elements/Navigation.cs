@@ -153,5 +153,15 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         {
             _client.ClickQuickLaunchButton(toolTip);
         }
+
+        #region Modifications
+
+        public void OpenRecentItemsUCI()
+        {
+            _client.OpenRecentItemsUCI();
+        }
+
+
+        #endregion
     }
 }

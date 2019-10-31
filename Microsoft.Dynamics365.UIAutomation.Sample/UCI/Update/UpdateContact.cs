@@ -91,7 +91,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
                 xrmApp.Entity.SetValue("telephone1", "555-555-5555");
 
                 preferredContact.Value = "Email";
-                xrmApp.Entity.SetValue(preferredContact);
+                xrmApp.Entity.SetValueOption(preferredContact);
 
                 xrmApp.Entity.Save();
 

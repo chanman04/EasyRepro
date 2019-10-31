@@ -52,7 +52,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Sample.UCI
 
                 xrmApp.ThinkTime(3000);
 
-                xrmApp.Entity.SetValue(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
+                xrmApp.Entity.SetValueOption(new OptionSet { Name = "preferredcontactmethodcode", Value = "Email" });
             }
         }
 

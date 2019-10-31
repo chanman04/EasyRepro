@@ -81,6 +81,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
             _client.Delete();
         }
 
+
+        #region Get Methods
         public Field GetField(string field)
         {
             return _client.GetField(field);
@@ -245,6 +247,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
             _client.GetValue(option);
         }
 
+        #endregion
+
         /// <summary>
         /// Open Entity
         /// </summary>
@@ -302,7 +306,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         {
             _client.SelectTab(tabName, subTabName);
         }
-
+        #region Set Methods
         public void SetHeaderValue(string field, string value)
         {
             _client.SetHeaderValue(field, value);
@@ -399,7 +403,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         /// Sets the value of a picklist or status field.
         /// </summary>
         /// <param name="option">The option you want to set.</param>
-        public void SetValue(OptionSet optionSet)
+        public void SetValueOption(OptionSet optionSet)
         {
             _client.SetValue(optionSet);
         }
@@ -434,7 +438,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         {
             _client.SetValue(option, removeExistingValues);
         }
-        
+        #endregion
         /// <summary>
         /// Click Process>Switch Process
         /// </summary>
@@ -473,5 +477,26 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         {
             _client.RemoveValues(controls);
         }
-    }   
+
+        #region Modifications
+
+
+        public void PatientSearch()
+        {
+            _client.PatientSearch();
+        }
+
+        public void SwitchCaseTab(string name)
+        {
+            _client.SwitchCaseTab(name);
+        }
+
+        public void ClickSubgridButton(string subgridName, string subgridButtonName)
+        {
+            _client.ClickSubgridButton(subgridName, subgridButtonName);
+        }
+
+        #endregion
+
+    }
 }
